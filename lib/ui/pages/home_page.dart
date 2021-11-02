@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  ArticleBloc articleBloc;
+  late ArticleBloc articleBloc;
 
   @override
   void initState() {
@@ -30,16 +32,16 @@ class _HomePageState extends State<HomePage> {
           return Material(
             child: Scaffold(
               appBar: AppBar(
-                title: Text("Cricket"),
+                title: const Text("Cricket"),
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.refresh),
+                    icon: const Icon(Icons.refresh),
                     onPressed: () {
                       articleBloc.add(FetchArticlesEvent());
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.info),
+                    icon: const Icon(Icons.info),
                     onPressed: () {
                       navigateToAoutPage(context);
                     },
@@ -47,10 +49,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               body: Container(
+                alignment: Alignment.center,
                 child: BlocListener<ArticleBloc, ArticleState>(
                   listener: (context, state) {
                     if (state is ArticleErrorState) {
-                      Scaffold.of(context).showSnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.message),
                         ),
@@ -67,6 +70,11 @@ class _HomePageState extends State<HomePage> {
                         return buildArticleList(state.articles);
                       } else if (state is ArticleErrorState) {
                         return buildErrorUi(state.message);
+                      } else {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: const Text('Here is bug!'),
+                        );
                       }
                     },
                   ),
@@ -80,7 +88,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildLoading() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }
@@ -91,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           message,
-          style: TextStyle(color: Colors.red),
+          style: const TextStyle(color: Colors.red),
         ),
       ),
     );
@@ -138,7 +146,7 @@ class _HomePageState extends State<HomePage> {
 
   void navigateToAoutPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AboutPage();
+      return const AboutPage();
     }));
   }
 }

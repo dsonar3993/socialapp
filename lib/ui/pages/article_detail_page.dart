@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   Articles article;
-
-  ArticleDetailPage({this.article});
+  ArticleDetailPage({key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cricket"),
+        title: const Text("Cricket"),
       ),
       body: ListView(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         children: <Widget>[
           Hero(
             tag: article.urlToImage,
@@ -21,15 +20,15 @@ class ArticleDetailPage extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
               article.title,
-              style: TextStyle(fontSize: 20.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
           ),
           Container(
             alignment: Alignment.topRight,
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: Text(article.publishedAt),
           ),
           Text(article.content),

@@ -1,24 +1,39 @@
+import 'dart:io';
+
 import 'package:socialapp/bloc/article/article_bloc.dart';
 import 'package:socialapp/data/repository/article_repository.dart';
 import 'package:socialapp/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cricket',
       home: BlocProvider(
-        builder: (context) => ArticleBloc(repository: ArticleRepositoryImpl()),
-        child: HomePage(),
+        create: (context) => ArticleBloc(repository: ArticleRepositoryImpl()),
+        child: const HomePage(),
       ),
     );
   }
 }
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 // using FutureBuilder without BLoC pattern
 //   List<Article> list = [];
 //  Widget loadUI(BuildContext ctx) {

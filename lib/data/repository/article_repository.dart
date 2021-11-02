@@ -10,11 +10,16 @@ abstract class ArticleRepository {
 class ArticleRepositoryImpl implements ArticleRepository {
   @override
   Future<List<Articles>> getArticles() async {
-    var response = await http.get(AppStrings.cricArticleUrl);
+    var response = await http.get(Uri.parse(AppStrings.bitcoinArticleUrl));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       List<Articles> articles = ApiResultModel.fromJson(data).articles;
-      return articles;
+      if (articles.isNotEmpty) {
+        return articles;
+      } else {
+        articles.add(Articles(title: 'This is dummy'));
+        return articles;
+      }
     } else {
       throw Exception();
     }
