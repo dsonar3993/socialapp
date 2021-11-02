@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socialapp/screens/album.dart';
-import 'package:socialapp/services/album.dart';
-import 'package:socialapp/settings/preferences.dart';
+import 'package:socialapp/widgets/app_navigator.dart';
+import 'package:socialapp/cubits/nav_cubit.dart';
+import 'package:socialapp/cubits/posts_cubit.dart';
 
-import 'bloc/album.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Preferences.init();
-  runApp(const MyApp());
+void main() {
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Bloc Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: BlocProvider(
-        create: (context) => AlbumsBloc(albumsRepo: AlbumServices()),
-        child: const AlbumsScreen(),
-      ),
-    );
+        home: MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => NavCubit()),
+      BlocProvider(
+        create: (context) => PostsBloc()..add(LoadPostsEvent()),
+      )
+    ], child: AppNavigator()));
   }
 }
