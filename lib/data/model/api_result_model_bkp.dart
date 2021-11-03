@@ -60,9 +60,7 @@ class Articles {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (source != null) {
-      data['source'] = source.toJson();
-    }
+    data['source'] = source.toJson();
     data['author'] = author;
     data['title'] = title;
     data['description'] = description;
@@ -77,7 +75,6 @@ class Articles {
 class Source {
   String id = "";
   String name = "";
-
   Source({id, name});
 
   Source.fromJson(Map<String, dynamic> json) {

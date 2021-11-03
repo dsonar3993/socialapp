@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           return Material(
             child: Scaffold(
               appBar: AppBar(
-                title: const Text("Cricket"),
+                title: const Text("Bitcoin"),
                 actions: <Widget>[
                   IconButton(
                     icon: const Icon(Icons.refresh),
